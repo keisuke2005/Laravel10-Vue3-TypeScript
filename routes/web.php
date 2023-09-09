@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get("/login", function () {
+    return view('index');
+});
+
+Route::middleware('auth:sanctum')->get('{any}', function () {
+    return view('index');
+})->where('any', '.*');
