@@ -54,7 +54,7 @@ const login = async () => {
     .then((res) => {
         console.log(4)
         if( res.data.status_code == 200 ) {
-            router.push("/about");
+            router.push("/top");
         }
         getUserMessage.value = 'ログインに失敗しました。'
     })
