@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\Interfaces\AnimalServiceInterface;
+use App\Services\AnimalService;
+use App\Repositories\Interfaces\AnimalRepositoryInterface;
+use App\Repositories\AnimalRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(AnimalServiceInterface::class, AnimalService::class);
+        $this->app->bind(AnimalRepositoryInterface::class, AnimalRepository::class);
     }
 
     /**
