@@ -17,10 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/login", function () {
-    return view('index');
-})->name('login');
+// ログインなし
+Route::get("/login", fn() => view('index'))->name('login');
+Route::get("/new_account", fn() => view('index'))->name('new_account');
 
+Route::get('/account/register',[App\Http\Controllers\LoginController::class, 'register']);
+
+// ログインあり
 Route::middleware('auth:sanctum')->get('{any}', function () {
     return view('index');
 })->where('any', '.*');

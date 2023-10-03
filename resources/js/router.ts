@@ -4,6 +4,7 @@ const BASE_URL = '/'
 import Login from "./components/Login.vue";
 import About from "./components/About.vue";
 import Top from "./components/Top.vue";
+import NewAccount from "./components/NewAccount.vue";
 interface RouteMeta {
     showHeader: boolean;
 }
@@ -18,6 +19,12 @@ const routes: CustomRouteRecord[] = [
         name: "Login",
         meta: { showHeader: false },
         component: Login,
+    },
+    {
+        path: "/new_account",
+        name: "NewAccount",
+        meta: { showHeader: false },
+        component: NewAccount,
     },
     {
         path: "/about",
