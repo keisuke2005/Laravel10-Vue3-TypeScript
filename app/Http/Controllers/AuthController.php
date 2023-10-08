@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\VerifyEmail;
+use App\Services\Interfaces\AuthServiceInterface;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
+    public function __construct(
+        private AuthServiceInterface $authService
+    )
+    {
+
+    }
 
     public function login(Request $request)
     {
@@ -20,9 +25,8 @@ class LoginController extends Controller
 
         if(Auth::attempt($credentials)){
             return response()->json(['status_code' => 200,'message' => 'success'],200);
-        } else {
-            return response()->json(['status_code' => 500,'message' => 'Unauthorized'],200);
         }
+        return response()->json(['status_code' => 500,'message' => 'Unauthorized'],200);
     }
 
     public function logout()
@@ -33,26 +37,22 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        /*
+        // バリデーション
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed',
         ]);
-        */
+        $data = $request->only('name', 'email', 'password');
 
-        $user = User::create([
-            'name' => "hoge",
-            'email' => "ukei2021@ymail.ne.jp",
-            'password' => bcrypt('password'),
-        ]);
+        // 処理
+        $response = $this->authService->temporaryRegister(
+            $request->name,
+            $request->email,
+            $request->password,
+        );
 
-        Mail::to($user->email)->send(new VerifyEmail($user));
-        dd(1);
-
-        $token = $user->createToken('appToken')->plainTextToken;
-
-        return response(['user' => $user, 'token' => $token], 201);
+        return $response;
     }
 
 }

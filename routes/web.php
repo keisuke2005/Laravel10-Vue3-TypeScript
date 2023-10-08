@@ -19,9 +19,11 @@ Route::get('/', function () {
 
 // ログインなし
 Route::get("/login", fn() => view('index'))->name('login');
-Route::get("/new_account", fn() => view('index'))->name('new_account');
+Route::get("/account/create", fn() => view('index'))->name('account_create');
+Route::get("/account/confirm", fn() => view('index'))->name('account_confirm');
+Route::get("/account/verify/{token}", 'AuthController@verify')->name('account_confirm');
 
-Route::get('/account/register',[App\Http\Controllers\LoginController::class, 'register']);
+//Route::get('/account/register',[App\Http\Controllers\AuthController::class, 'register']);
 
 // ログインあり
 Route::middleware('auth:sanctum')->get('{any}', function () {

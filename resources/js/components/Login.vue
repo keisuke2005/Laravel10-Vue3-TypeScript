@@ -18,6 +18,14 @@
                 <div class="row my-1">
                     <button class="btn btn-primary offset-3 col-6" type="submit">ログイン</button>
                 </div>
+                <div class="text-center my-3">
+                    <a href="#">パスワードを忘れた方はこちら</a>
+                </div>
+                <div class="text-center">
+                    <label>初めてご利用の方はこちら</label><br>
+                    <button @click="goToAccountCreate" class="btn btn-primary">新規アカウントを作成</button>
+                </div>
+                
             </form>
         </div>
     </div>
@@ -64,6 +72,10 @@ const login = async () => {
     })
     console.log(5)
 }
+
+const goToAccountCreate = () => {
+  router.push('/account/create');
+};
 
 
 
