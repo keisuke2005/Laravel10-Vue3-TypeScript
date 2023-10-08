@@ -29,7 +29,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import noImage from '@/assets/images/no_image.jpeg';
-import { useRouter } from 'vue-router';
+
 
 interface Animal {
     id: number;
@@ -56,19 +56,7 @@ onMounted(async () => {
     }
 });
 
-const logout = () => {
-    axios.post("api/logout")
-    .then(response => {
-        console.log(response);
-        // ここでthis.$routerは直接使用できません。
-        // 代わりにuseRouterを使ってルーターインスタンスを取得します。
-        const router = useRouter();
-        router.push("/login");
-    })
-    .catch(error => {
-        console.log(error);
-    });
-};
+
 
 </script>
 

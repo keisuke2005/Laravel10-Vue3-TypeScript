@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Services\Interfaces\AuthServiceInterface;
 
+/**
+ * AuthController
+ * 
+ * 認証コントローラークラス
+ * @access public
+ * @author keisuke.ueda
+ * 
+ */
 class AuthController extends Controller
 {
     public function __construct(
@@ -18,19 +24,22 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // バリデーション
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
+        // サービス実行
+        $response = $this->authService->loginExecute($credentials);
 
-        if(Auth::attempt($credentials)){
-            return response()->json(['status_code' => 200,'message' => 'success'],200);
-        }
-        return response()->json(['status_code' => 500,'message' => 'Unauthorized'],200);
+        // レスポンス
+        return $response;
     }
 
     public function logout()
     {
+        $response = $this->authService->logoutExecute();
+        return $response;
         Auth::logout();
         return response()->json(['status_code' => 200,'message' => 'Logged out'], 200);
     }
@@ -45,13 +54,14 @@ class AuthController extends Controller
         ]);
         $data = $request->only('name', 'email', 'password');
 
-        // 処理
+        // サービス実行
         $response = $this->authService->temporaryRegister(
             $request->name,
             $request->email,
             $request->password,
         );
 
+        // レスポンス
         return $response;
     }
 

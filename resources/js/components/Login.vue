@@ -45,8 +45,6 @@ watch(email, () => {
     console.log(email.value)
 })
 
-console.log(1)
-
 const login = async () => {
     const url = '/sanctum/csrf-cookie'
     
@@ -54,14 +52,12 @@ const login = async () => {
     .catch((err) => {
         getUserMessage.value = 'ログインに失敗しました。'
     })
-    console.log(3)
     await axios.post('/api/login', {
         email: email.value,
         password: pass.value,
     })
     .then((res) => {
-        console.log(4)
-        if( res.data.status_code == 200 ) {
+        if(res.status === 200 && res.data.success) {
             router.push("/top");
         }
         getUserMessage.value = 'ログインに失敗しました。'
@@ -70,7 +66,6 @@ const login = async () => {
         console.log(err);
         getUserMessage.value = 'ログインに失敗しました。'
     })
-    console.log(5)
 }
 
 const goToAccountCreate = () => {

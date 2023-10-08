@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Auth;
 
 readonly class AuthService implements AuthServiceInterface
 {
@@ -58,4 +59,27 @@ readonly class AuthService implements AuthServiceInterface
         }
         
     }
+
+    public function loginExecute(array $credentials):JsonResponse
+    {
+        if(Auth::attempt($credentials)){
+            return response()->json(['success' => true],200);
+        }
+        return response()->json(['success' => false],500);
+    }
+
+    public function logoutExecute():JsonResponse
+    {
+        try
+        {
+            Auth::logout();
+            return response()->json(['success' => true],200);
+        }
+        catch(\Exception $e)
+        {
+
+            return response()->json(['success' => false],500);
+        }
+    }
+
 }      

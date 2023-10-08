@@ -2,16 +2,33 @@
     <header class="bg-white container-fluid">
         <div class="wrap">
             <img :src="logoRef">
-            <bottun class="btn btn-primary">ログアウト</bottun>
+            <bottun @click="logout" class="btn btn-primary">ログアウト</bottun>
         </div>
     </header>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import logo from '@/assets/images/KnownAnimalLogo.png';
 
+const router = useRouter()
 const logoRef = ref<string>(logo);
+
+const logout = () => {
+    axios.post("/api/logout")
+    .then(response => {
+        console.log(response.status);
+        console.log(response.data.success);
+        if(response.status === 200 && response.data.success) {
+            router.push("/login");
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+};
 
 </script>
 
